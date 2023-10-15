@@ -1,2 +1,4 @@
 .DS_Store
 .env
+docker-compose.yml
+infrastructure/nginx/default.conf
