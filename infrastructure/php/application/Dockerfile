@@ -16,3 +16,5 @@ RUN apt-get update && \
   docker-php-ext-install -j$(nproc) gd
 
 COPY ./infrastructure/php/application/php.ini /usr/local/etc/php/php.ini
+
+WORKDIR /resources/application
