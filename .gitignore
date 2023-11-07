@@ -1,4 +1,5 @@
 .DS_Store
+ER.dio
 .env
 docker-compose.yml
 infrastructure/nginx/default.conf
