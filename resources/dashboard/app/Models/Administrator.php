@@ -30,6 +30,9 @@ class Administrator extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -41,4 +44,9 @@ class Administrator extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function administratorAccount()
+    {
+        return $this->hasOne(AdministratorAccount::class);
+    }
 }

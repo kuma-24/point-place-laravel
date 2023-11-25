@@ -9,7 +9,7 @@
     <body>
         @if (!$accounts['user_account'])
             <p>e-mail: {{  $accounts['email'] }}</p>
-            <a href="{{ route('email.edit') }}">メールアドレス編集</a>
+            <a href="{{ route('account_email.edit') }}">メールアドレス編集</a>
             <a href="{{ route('account.create') }}">アカウント追加登録</a>
         @else
             <p>e-mail: {{ $accounts['email'] }}</p>

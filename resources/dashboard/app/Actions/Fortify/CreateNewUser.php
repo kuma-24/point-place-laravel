@@ -2,7 +2,8 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\User;
+use App\Models\Administrator;
+use App\Models\AdministratorAccount;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -17,24 +18,32 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input): Administrator
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+            'first_name_kana' => ['required', 'string', 'max:50'],
+            'last_name_kana' => ['required', 'string', 'max:50'],
+            'birth_date' => ['date'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(Administrator::class)],
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
+        $administrator = Administrator::create([
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+        
+        AdministratorAccount::create([
+            'administrator_id' => $administrator['id'],
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'first_name_kana' => $input['first_name_kana'],
+            'last_name_kana' => $input['last_name_kana'],
+            'birth_date' => $input['birth_date'],
+        ]);
+
+        return $administrator;
     }
 }
