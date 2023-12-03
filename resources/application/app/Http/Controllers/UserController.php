@@ -2,84 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Requests\UserAccountCreateRequest;
-use App\Http\Requests\UserAccountEditRequest;
-use App\Http\Requests\UserAccountEmailEditRequest;
+use App\Http\Requests\UserAccountStoreRequest;
+use App\Http\Requests\UserAccountUpdateRequest;
 use App\Models\User;
 use App\Models\UserAccount;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function createUserAccount()
+    private $accountViewPrefix = 'users.accounts';
+
+    public function createAccount()
     {
-        return view('users.accounts.create');
+        return view("{$this->accountViewPrefix}.create");
     }
 
-    public function storeUserAccount(UserAccountCreateRequest $request)
+    public function storeAccount(UserAccountStoreRequest $request)
     {
-        $request = $request->all();
-        $request['user_id'] = Auth::user()->id;
+        $userAccount = new UserAccount(['user_id' => Auth::user()->id]);
+        $userAccount->fill($request->all())->save();
 
-        $userAccount = new UserAccount;
-        $userAccount->fill($request)->save();
-
-        return redirect()->route('account.show');
+        return redirect()->route('show.account');
     }
 
-    public function showUserAccount()
+    public function showAccount()
     {
-        $userId = Auth::user()->id;
-        $accounts = User::with('userAccount')->find($userId)->toArray();
-
-        return view('users.accounts.show', compact('accounts'));
+        $user = User::with('userAccount')->findOrFail(Auth::user()->id);
+        
+        return view("{$this->accountViewPrefix}.show", compact('user'));
     }
 
-    public function editUserAccountEmail()
+    public function editAccount()
     {
-        $userId = Auth::user()->id;
-        $accounts = User::find($userId)->toArray();
-
-        return view('users.accounts.editEmail', compact('accounts'));
+        $user = User::with('userAccount')->findOrFail(Auth::user()->id);
+        
+        return view("{$this->accountViewPrefix}.edit", compact('user'));
     }
 
-    public function updateUserAccountEmail(UserAccountEmailEditRequest $request)
+    public function updateAccount(UserAccountUpdateRequest $request)
     {
-        $userId = Auth::user()->id;
+        $user = User::with('userAccount')->findOrFail(Auth::user()->id);
 
-        $request = $request->all();
-        $request['user_id'] = $userId;
+        if ($user->userAccount) {
+            $user->email = $request->email;
+            $user->userAccount->first_name = $request->first_name;
+            $user->userAccount->first_name_kana = $request->first_name_kana;
+            $user->userAccount->last_name = $request->last_name;
+            $user->userAccount->last_name_kana = $request->last_name_kana;
+            $user->userAccount->birth_date = $request->birth_date;
 
-        $accounts = User::find($userId);
-        $accounts->fill($request)->save();
+        } else {
+            $user->email = $request->email;
+        }
 
-        return redirect()->route('account.show');
-    }
+        $user->push();
 
-    public function editUserAccount()
-    {
-        $userId = Auth::user()->id;
-        $accounts = User::with('userAccount')->find($userId)->toArray();
-
-        return view('users.accounts.editAccount', compact('accounts'));
-    }
-
-    public function updateUserAccount(UserAccountEditRequest $request)
-    {
-        $userId = Auth::user()->id;
-
-        $request = $request->all();
-        $request['user_id'] = $userId;
-
-        $accounts = User::with('userAccount')->find($userId);
-        $accounts->userAccount->first_name = $request['first_name'];
-        $accounts->userAccount->first_name_kana = $request['first_name_kana'];
-        $accounts->userAccount->last_name = $request['last_name'];
-        $accounts->userAccount->last_name_kana = $request['last_name_kana'];
-        $accounts->userAccount->birth_date = $request['birth_date'];
-        $accounts->push();
-
-        return redirect()->route('account.show');
+        return redirect()->route('show.account');
     }
 }

@@ -3,44 +3,43 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Create Account Page</title>
+        <link rel="stylesheet" href="{{ asset('css/accountCreate.css') }}">
+        <title>追加登録</title>
     </head>
     <body>
-        <div class="register-container">
-            <h2>アカウント登録</h2>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+        <div class="create-container">
+            <h2>アカウント追加登録</h2>
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
 
-            <form class="register-form" method="post" action="{{ route('account.store') }}">
+            <form class="create-form" method="post" action="{{ route('store.account') }}">
                 @csrf
-                <div class="form-group">
-                    <label for="first_name">first_name:</label>
-                    <input type="text" name="first_name">
-                </div>
-                <div class="form-group">
-                    <label for="last_name">last_name:</label>
-                    <input type="text" name="last_name">
-                </div>
-                <div class="form-group">
-                    <label for="first_name_kana">first_name_kana:</label>
-                    <input type="text" name="first_name_kana">
-                </div>
-                <div class="form-group">
-                    <label for="last_name_kana">last_name_kana:</label>
-                    <input type="text" name="last_name_kana">
-                </div>
-                <div class="form-group">
-                    <label for="birth_date">birth_date:</label>
-                    <input type="date" name="birth_date">
-                </div>
-                <div class="form-group">
-                    <button type="submit">Register</button>
+                
+                <label for="firstName">名:</label>
+                <input type="text" id="firstName" name="first_name">
+
+                <label for="firstKana">名カナ:</label>
+                <input type="text" id="firstKana" name="first_name_kana">
+
+                <label for="lastName">姓:</label>
+                <input type="text" id="lastName" name="last_name">
+
+                <label for="lastKana">姓カナ:</label>
+                <input type="text" id="lastKana" name="last_name_kana">
+
+                <label for="birthdate">生年月日:</label>
+                <input type="date" id="birthdate" name="birth_date">
+
+                <div class="button-container">
+                    <button type="submit">保存</button>
+                    <a href="{{ route('show.account') }}">戻る</a>
                 </div>
             </form>
-            <div class="back-button">
-                <a href="{{ route('account.show') }}">戻る</a>
-            </div>
         </div>
     </body>
 </html>

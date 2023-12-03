@@ -13,6 +13,6 @@
             <button type="submit">Logout</button>
         </form>
         
-        <a href="{{ route('account.show') }}">アカウント</a>
+        <a href="{{ route('show.account') }}">アカウント</a>
     </body>
 </html>
