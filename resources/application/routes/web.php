@@ -20,13 +20,11 @@ Route::get('/', [Controller::class, 'top'])->name('top');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [Controller::class, 'home'])->name('home');
 
-    Route::group(['prefix' => 'user'], function () {
-        Route::get('/account/create', [UserController::class, 'createUserAccount'])->name('account.create');
-        Route::post('/account/store', [UserController::class, 'storeUserAccount'])->name('account.store');
-        Route::get('/account/show',[UserController::class, 'showUserAccount'])->name('account.show');
-        Route::get('/account/edit/email',[UserController::class, 'editUserAccountEmail'])->name('account_email.edit');
-        Route::patch('/account/update/email',[UserController::class, 'updateUserAccountEmail'])->name('account_email.update');
-        Route::get('/account/edit/account',[UserController::class, 'editUserAccount'])->name('account.edit');
-        Route::patch('/account/update/account',[UserController::class, 'updateUserAccount'])->name('account.update');
+    Route::group(['prefix' => 'home/account'], function () {
+        Route::get('/create', [UserController::class, 'createAccount'])->name('create.account');
+        Route::post('/store', [UserController::class, 'storeAccount'])->name('store.account');
+        Route::get('/show', [UserController::class, 'showAccount'])->name('show.account');
+        Route::get('/edit', [UserController::class, 'editAccount'])->name('edit.account');
+        Route::patch('/update', [UserController::class, 'updateAccount'])->name('update.account');
     });
 });

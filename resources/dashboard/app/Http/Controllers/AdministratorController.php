@@ -43,6 +43,7 @@ class AdministratorController extends Controller
     public function updateProfile(AdministratorProfileUpdateRequest $request)
     {
         $administrator = Administrator::with('administratorAccount')->findOrFail(Auth::user()->id);
+        
         $administrator->email = $request->email;
         $administrator->administratorAccount->first_name = $request->first_name;
         $administrator->administratorAccount->first_name_kana = $request->first_name_kana;

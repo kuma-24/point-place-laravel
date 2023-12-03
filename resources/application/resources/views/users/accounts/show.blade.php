@@ -3,26 +3,50 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Show Account Page</title>
+        <link rel="stylesheet" href="{{ asset('css/accountShow.css') }}">
+        <title>アカウント</title>
     </head>
     <body>
-        @if (!$accounts['user_account'])
-            <p>e-mail: {{  $accounts['email'] }}</p>
-            <a href="{{ route('account_email.edit') }}">メールアドレス編集</a>
-            <a href="{{ route('account.create') }}">アカウント追加登録</a>
-        @else
-            <p>e-mail: {{ $accounts['email'] }}</p>
-            <a href="{{ route('account_email.edit') }}">メールアドレス編集</a>
-            
-            <p>first-Name: {{ $accounts['user_account']['first_name'] }}</p>
-            <p>first-Name-kana: {{ $accounts['user_account']['first_name_kana'] }}</p>
-            <p>last-Name: {{ $accounts['user_account']['last_name'] }}</p>
-            <p>last-Name-kana: {{ $accounts['user_account']['last_name_kana'] }}</p>
-            <p>birth-date: {{ $accounts['user_account']['birth_date'] }}</p>
-            <a href="{{ route('account.edit') }}">アカウント編集</a>
-        @endif
+        <div class="profile-container">
+            <h2>アカウント情報</h2>
+            @if(!isset($user->userAccount))
+                <div class="profile-info">
+                    <label>メールアドレス:</label>
+                    <p>{{ $user->email }}</p>
+                </div>
 
-        <a href="{{ route('home') }}">戻る</a>
+                <div class="button-container">
+                    <a href="{{ route('home') }}">戻る</a>
+                    <a href="{{ route('edit.account') }}">編集</a>
+                    <a href="{{ route('create.account') }}">追加登録</a>
+                </div>
+                
+            @else
+                <div class="profile-info">
+                    <label>メールアドレス:</label>
+                    <p>{{ $user->email }}</p>
+
+                    <label>姓:</label>
+                    <p>{{ $user->userAccount->first_name }}</p>
+
+                    <label>姓カナ:</label>
+                    <p>{{ $user->userAccount->first_name_kana }}</p>
+
+                    <label>名:</label>
+                    <p>{{ $user->userAccount->last_name }}</p>
+
+                    <label>名カナ:</label>
+                    <p>{{ $user->userAccount->last_name_kana }}</p>
+
+                    <label>生年月日:</label>
+                    <p>{{ $user->userAccount->birth_date }}</p>
+                </div>
+
+                <div class="button-container">
+                    <a href="{{ route('home') }}">戻る</a>
+                    <a href="{{ route('edit.account') }}">編集</a>
+                </div>
+            @endif
+        </div>
     </body>
 </html>
