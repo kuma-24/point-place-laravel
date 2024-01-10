@@ -13,6 +13,7 @@
             <button type="submit">Logout</button>
         </form>
         <a href="{{ route('index.account') }}">アカウント一覧</a>
+        <a href="{{ route('index.campaign') }}">キャンペーン一覧</a>
         <a href="{{ route('show.profile') }}">myProfile</a>
     </body>
 </html>

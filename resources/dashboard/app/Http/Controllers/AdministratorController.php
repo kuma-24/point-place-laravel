@@ -10,7 +10,7 @@ use App\Models\Administrator;
 class AdministratorController extends Controller
 {
     private $accountViewPrefix = 'administrators.accounts';
-    private $profileViewPrefix = 'administrators.accounts.profiles';
+    private $profileViewPrefix = 'administrators.profiles';
 
     public function indexAccount()
     {
