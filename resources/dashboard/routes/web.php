@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\CampaignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +30,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'home/account'], function () {
         Route::get('/index', [AdministratorController::class, 'indexAccount'])->name('index.account');
         Route::get('/show/{id}', [AdministratorController::class, 'showAccount'])->name('show.account');
+    });
+
+    Route::group(['prefix' => 'home/campaign'], function () {
+        Route::get('/index', [CampaignController::class, 'index'])->name('index.campaign');
+        Route::get('/create', [CampaignController::class, 'create'])->name('create.campaign');
+        Route::post('/store',[CampaignController::class, 'store'])->name('store.campaign');
+        Route::get('/show/{id}', [CampaignController::class, 'show'])->name('show.campaign');
+        Route::get('/edit/{campaign}', [CampaignController::class, 'edit'])->name('edit.campaign');
+        Route::patch('/update/{campaign}', [CampaignController::class, 'update'])->name('update.campaign');
+        Route::delete('/delete/{campaign}', [CampaignController::class, 'delete'])->name('delete.campaign');
     });
 });
